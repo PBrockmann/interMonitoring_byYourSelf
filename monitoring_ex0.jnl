@@ -1,0 +1,23 @@
+cancel data/all; cancel var/all
+cancel mode logo
+set mode linecolors 30
+
+! run with pyferret -nodisplay -script monitoring_ex0.jnl monitoring_ex0
+
+ppl color 2, 0, 50, 100, 50
+ppl color 3, 100, 50, 0, 50
+ppl color 4, 80, 0, 80, 50
+ppl color 6, 70, 70, 70
+
+def symbol FILE=($02%ATM_t2m_global_ave.nc%)
+
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86fair/IPSLCM6/DEVT/pdControl/CM608.3-LR-pdCtrl-01/MONITORING/files/($FILE)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86fair/IPSLCM6/DEVT/pdControl/CM608-LR-pdCtrl-gwdrag02/MONITORING/files/($FILE)"
+
+let/title="CM608.3-LR-pdCtrl-01" var1 = T2M_GLOBAL[l=@sbx:120,d=1]
+let/title="CM608-LR-pdCtrl-gwdrag02" var2 = T2M_GLOBAL[l=@sbx:120,d=2]
+
+plot/color/thick=3/grat=(dash,color=6)/key=title var1, var2
+
+frame/file="($01).pdf"
+frame/file="($01).png"

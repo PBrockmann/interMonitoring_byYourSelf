@@ -1,0 +1,47 @@
+cancel data/all; cancel var/all
+cancel mode logo
+set mode linecolors 30
+
+!============================================================
+let colors={"3B63E6", "FF4500", "FFE000", "34D314", "FF1392", "FFA400", "775BB4", "F5E6BD", "789BF1", "AFDFE6", "0000C7", "1FB1AA", "B12121", "DEB886", "FFB6C1", "CCCCCC"}
+
+! Keep black in #1, gray will be at #17
+repeat/name=dv/range=1:16 ( define symbol ds=`dv` ; go set_color_from_hexa `dv+1` `colors[i=($ds)]` )
+
+!============================================================
+define symbol file=($02%ATM_bils_global_ave.nc%)
+
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86caub/IPSLCM6/DEVT/pdControl/CM607-LR-pdCtrl-01/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwCnd05-01/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwAlb-03/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwCdTKE-03/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-TSnw-01/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SCdamax-01/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SCdhstar-01/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86maf/IPSLCM6/DEVT/pdControl/CM608P-LR-pdCtrl-ICEPLUS-01/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86maf/IPSLCM6/DEVT/pdControl/CM608P-LR-pdCtrl-ICEPACC-03/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86fair/IPSLCM6/DEVT/pdControl/CM607-LR-pdCtrl-mountain/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86caub/IPSLCM6/DEVT/pdControl/CM607.lmixmin-LR-pdCtrl-01/MONITORING/files/($file)"
+use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86denv/IPSLCM6/DEVT/pdControl/CM607-DISSIP-LR-pdCtrl-01/MONITORING/files/($file)"
+
+! Define var0 as the initial variable
+let var0=($03%BILS_GLOBAL[l=@sbx:120]%)
+
+!============================================================
+! Define variables var1, var2, var3, ... with simuname as title
+repeat/name=dv/range=1:`($n_open_dsets)` (\
+	define symbol ds=`dv` ;\
+	let title=spawn("echo `var0[d=($ds)], return=dsetpath` | awk -F/ '{print $(NF-3)}'") ;\
+	let/title="`title`" var($ds)=var0[d=`dv`] \
+)
+
+! Build variables to plot
+def sym varString=var1
+repeat/name=dv/range=2:`($n_open_dsets)` (def sym varString=($varString), var`dv`)
+
+! Plot
+plot/grat=(dash,color=17)/color/key=title ($varString)
+
+! Save plots (only with pyferret -nodisplay)
+frame/file="($01).pdf"
+frame/file="($01).png"
