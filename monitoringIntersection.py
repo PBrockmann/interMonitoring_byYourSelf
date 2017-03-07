@@ -14,8 +14,8 @@ with open(sys.argv[1]) as f:
     simuList = f.readlines()
 
 simuList = [x.strip() for x in simuList]
-print simuList 
 
+print("################################################################")
 setFiles = []
 for i,simu in enumerate(simuList):
 
@@ -31,11 +31,12 @@ for i,simu in enumerate(simuList):
 			s.add(tag['name'])
 	print len(s)
 	setFiles.append(s)
+print 
 
 filesInter = set.intersection(*setFiles)
 
-print 
-print len(filesInter)
+print("################################################################")
+print("%s common files\n" %(len(filesInter)))
 
 for file in sorted(filesInter):
 	print file
