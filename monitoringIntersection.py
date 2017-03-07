@@ -20,7 +20,7 @@ setFiles = []
 for i,simu in enumerate(simuList):
 
 	print i, simu
-	file = urllib.urlopen(simu + '/files/catalog.xml')
+	file = urllib.urlopen(simu + '/MONITORING/files/catalog.xml')
 	handler = file.read()
 
 	catalogSoup = BeautifulSoup(handler, "lxml")
