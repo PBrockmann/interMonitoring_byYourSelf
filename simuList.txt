@@ -1,0 +1,3 @@
+https://esgf.extra.cea.fr/thredds/catalog/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-TSnw-01/MONITORING
+https://esgf.extra.cea.fr/thredds/catalog/work_thredds/p86caub/IPSLCM6/DEVT/pdControl/CM607-LR-pdCtrl-01/MONITORING
+https://esgf.extra.cea.fr/thredds/catalog/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwCnd05-01/MONITORING
