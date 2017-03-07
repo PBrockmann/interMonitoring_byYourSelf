@@ -12,17 +12,17 @@ repeat/name=dv/range=1:16 ( define symbol ds=`dv` ; go set_color_from_hexa `dv+1
 define symbol file=($02%ATM_bils_global_ave.nc%)
 
 use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86caub/IPSLCM6/DEVT/pdControl/CM607-LR-pdCtrl-01/MONITORING/files/($file)"
-use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwCnd05-01/MONITORING/files/($file)"
-use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwAlb-03/MONITORING/files/($file)"
-use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwCdTKE-03/MONITORING/files/($file)"
-use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-TSnw-01/MONITORING/files/($file)"
-use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SCdamax-01/MONITORING/files/($file)"
-use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SCdhstar-01/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwCnd05-01/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwAlb-03/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SnwCdTKE-03/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-TSnw-01/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SCdamax-01/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM607R-LR-pdCtrl-SCdhstar-01/MONITORING/files/($file)"
 use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86maf/IPSLCM6/DEVT/pdControl/CM608P-LR-pdCtrl-ICEPLUS-01/MONITORING/files/($file)"
 use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86maf/IPSLCM6/DEVT/pdControl/CM608P-LR-pdCtrl-ICEPACC-03/MONITORING/files/($file)"
 !use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86fair/IPSLCM6/DEVT/pdControl/CM607-LR-pdCtrl-mountain/MONITORING/files/($file)"
-use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86caub/IPSLCM6/DEVT/pdControl/CM607.lmixmin-LR-pdCtrl-01/MONITORING/files/($file)"
-use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86denv/IPSLCM6/DEVT/pdControl/CM607-DISSIP-LR-pdCtrl-01/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86caub/IPSLCM6/DEVT/pdControl/CM607.lmixmin-LR-pdCtrl-01/MONITORING/files/($file)"
+!use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86denv/IPSLCM6/DEVT/pdControl/CM607-DISSIP-LR-pdCtrl-01/MONITORING/files/($file)"
 
 ! Define var0 as the initial variable
 let var0=($03%BILS_GLOBAL[l=@sbx:120]%)
