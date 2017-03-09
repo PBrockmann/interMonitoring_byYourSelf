@@ -36,8 +36,8 @@ repeat/name=dv/range=1:`($n_open_dsets)` (\
 )
 
 ! Build variables to plot
-def sym varString=var1
-repeat/name=dv/range=2:`($n_open_dsets)` (def sym varString=($varString), var`dv`)
+define symbol varString=var1
+repeat/name=dv/range=2:`($n_open_dsets)` (define symbol varString=($varString), var`dv`)
 
 ! Plot
 plot/grat=(dash,color=17)/color/key=title ($varString)

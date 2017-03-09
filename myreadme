@@ -3,3 +3,5 @@ pyferret -nodisplay -script monitoring_ex0.jnl monitoring_ex0
 pyferret -nodisplay -script monitoring_ex1.jnl monitoring_ex1
 
 ./loop_ex.bash
+
+./prod.py simuList2.txt

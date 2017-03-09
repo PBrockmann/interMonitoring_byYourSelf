@@ -12,7 +12,6 @@ import sys
 
 with open(sys.argv[1]) as f:
     simuList = f.readlines()
-
 simuList = [x.strip() for x in simuList]
 
 print("################################################################")

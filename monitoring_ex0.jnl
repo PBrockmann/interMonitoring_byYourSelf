@@ -9,7 +9,7 @@ ppl color 3, 100, 50, 0, 50
 ppl color 4, 80, 0, 80, 50
 ppl color 6, 70, 70, 70
 
-def symbol FILE=($02%ATM_t2m_global_ave.nc%)
+define symbol FILE=($02%ATM_t2m_global_ave.nc%)
 
 use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86fair/IPSLCM6/DEVT/pdControl/CM608.3-LR-pdCtrl-01/MONITORING/files/($FILE)"
 use "http://esgf.extra.cea.fr/thredds/dodsC/work_thredds/p86fair/IPSLCM6/DEVT/pdControl/CM608-LR-pdCtrl-gwdrag02/MONITORING/files/($FILE)"
