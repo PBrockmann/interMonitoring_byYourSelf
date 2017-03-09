@@ -50,7 +50,7 @@ let xpos1=10 ; let yposstart=20 ; let ypos=`yposstart`
 repeat/name=dv/range=1:`($n_open_dsets)` (\
   define symbol ds=`dv` ;\
   if `ypos lt 4` then ; let ypos=`yposstart` ; let xpos1=55 ; endif ;\
-  let title=spawn("echo `var[d=($ds)], return=dsetpath` | awk -F/ '{print $(NF-3)}'") ;\
+  let title=spawn("echo `var[d=($ds)], return=dsetpath` | rev | cut -d/ -f 4-6 | rev") ;\
   go text_legend_put `xpos1` `xpos1+10` `ypos` "@AS `title`" `dv+1` 0.35 ;\
   let ypos=`ypos-3` \
 )
