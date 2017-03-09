@@ -1,5 +1,11 @@
 #!/usr/bin/env python
  
+#====================================================
+# Author: Patrick Brockmann (LSCE)
+#
+# Usage: ./prod.py simuList.txt
+#====================================================
+
 import urllib
 from bs4 import BeautifulSoup
 import sys
@@ -48,7 +54,7 @@ simuList = [ simu.replace('/thredds/catalog/', '/thredds/dodsC/') for simu in si
 
 script = j2_env.get_template('interMonitoring.jnl.template').render(simuList=simuList)
 
-scriptFile = outputDir + "/script.jnl"
+scriptFile = outputDir + "/interMonitoring.jnl"
 with open(scriptFile, "wb") as fh:
     fh.write(script)
 
