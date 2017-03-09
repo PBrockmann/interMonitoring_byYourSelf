@@ -1,0 +1,19 @@
+
+#============================
+Parrallel 
+
+real    1m15.424s
+user    6m16.517s
+sys     2m31.468s
+
+real    1m13.005s
+user    6m16.242s
+sys     2m26.592s
+
+#============================
+Sequential
+
+real    9m20.700s
+user    5m28.563s
+sys     1m40.094s
+
