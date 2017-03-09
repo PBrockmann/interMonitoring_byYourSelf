@@ -69,22 +69,25 @@ frameColors = {
 	"SRF":	"#E7FFAB"
 }
 
+#=============================================================
+quiet = "> /dev/null 2>&1"
+
 #for file in filesInter:
 for file in filesInter[0:4]:		# Only 4 first files for testing
 
 	color = frameColors[file.split('_')[0]]
 
-	cmd = "pyferret -batch " + outputDir + "/images/" + file.replace(".nc",".png") + " -script " + scriptFile + " " + file
+	cmd = "pyferret -noverify -quiet -batch " + outputDir + "/images/" + file.replace(".nc",".png") + " -script " + scriptFile + " " + file
 	print cmd
-	os.system(cmd)
+	os.system(cmd + quiet)
 	
 	cmd = "convert " + outputDir + "/images/" + file.replace(".nc",".png") + " " + outputDir + "/images/" + file.replace(".nc",".gif")
 	print cmd
-	os.system(cmd)
+	os.system(cmd + quiet)
 
 	cmd = "convert -geometry 50%x50% -bordercolor '" + color + "' -border 15x15 " + outputDir + "/images/" + file.replace(".nc",".png") + " " + outputDir + "/images/" + file.replace(".nc",".jpg")
 	print cmd
-	os.system(cmd)
+	os.system(cmd + quiet)
 
 #=============================================================
 simuNames = [ os.path.basename(simu) for simu in simuList ]

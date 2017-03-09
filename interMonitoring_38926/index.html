@@ -1,0 +1,1817 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+
+<!--  
+Following lines makes the page validates but you get extra
+Read:
+http://stackoverflow.com/questions/1735230/can-i-add-custom-attribute-to-html-tag
+http://krijnhoetmer.nl/stuff/html/strict-doctype-target/
+http://reference.sitepoint.com/javascript/DocumentType
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" 
+[
+  <!ATTLIST table name CDATA #IMPLIED >
+  <!ATTLIST img tip CDATA #IMPLIED >
+]> 
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="application/html; charset=utf-8" />
+
+<!-- ######################################## -->
+<!-- # Author: Patrick Brockmann -->
+<!-- # Contact: Patrick.Brockmann@cea.fr -->
+<!-- # History: -->
+<!-- # Modification: -->
+<!-- ######################################## -->
+
+<!-- ========================================================================== -->
+<title>Inter-monitoring: CM607R-LR-pdCtrl-TSnw-01 vs CM607-LR-pdCtrl-01 vs CM607R-LR-pdCtrl-SnwCnd05-01</title>
+
+<!-- ########################################################################## -->
+<style type="text/css">
+table.coll {
+border-collapse: collapse;
+border-color: #A9A9A9;
+}
+thead.fill {
+background-color: #E6EBD8;
+}
+.button {
+font-weight:bold;
+font-style:italic;
+font-family: Arial,Helvetica,sans-serif;
+background-color:#D6C2CF;
+border: 2px outset #FFFFFF;
+padding: 1px 20px 1px 20px;
+width: 80px;
+-moz-border-radius: 6px 6px 6px 6px;
+}
+.button_on {
+font-family: Arial,Helvetica,sans-serif;
+background-color:#DBF0A8;
+border: 2px outset #FFFFFF;
+padding: 1px 20px 1px 20px;
+width: 80px;
+-moz-border-radius: 6px 6px 6px 6px;
+}
+.button_off {
+font-family: Arial,Helvetica,sans-serif;
+background-color:#CCCCB4;
+border: 2px outset #FFFFFF;
+padding: 1px 20px 1px 20px;
+width: 80px;
+-moz-border-radius: 6px 6px 6px 6px;
+}
+.button_XOR {
+font-weight:bold;
+font-style:italic;
+font-family: Arial,Helvetica,sans-serif;
+background-color:#FFD700;
+border: 2px outset #FFFFFF;
+padding: 1px 20px 1px 20px;
+width: 80px;
+-moz-border-radius: 6px 6px 6px 6px;
+}
+.button_OR {
+font-weight:bold;
+font-style:italic;
+font-family: Arial,Helvetica,sans-serif;
+background-color:#FFED33;
+border: 2px outset #FFFFFF;
+padding: 1px 20px 1px 20px;
+width: 80px;
+-moz-border-radius: 6px 6px 6px 6px;
+}
+.button_AND {
+font-weight:bold;
+font-style:italic;
+font-family: Arial,Helvetica,sans-serif;
+background-color:#FBFF50;
+border: 2px outset #FFFFFF;
+padding: 1px 20px 1px 20px;
+width: 80px;
+-moz-border-radius: 6px 6px 6px 6px;
+}
+.image {
+display:inline-block;
+}
+strong {
+font-family: Arial,Helvetica,sans-serif;
+font-weight: bold;
+font-style: none;
+}
+a:focus { outline: none }
+body { font-family: Arial,Helvetica,sans-serif; }
+</style>
+<!-- ########################################################################## -->
+
+<!-- ########################################################################## -->
+<script type="text/javascript">
+<!-- 
+
+function pad(number,length) {
+    var str = '' + number;
+    while (str.length < length)
+	str = '0' + str;
+    return str;
+}
+
+function togglestyle1(el){
+    if (el.className == 'button_on') {
+    	el.className='button_off';
+    } 
+    else {
+    	el.className='button_on';
+    }
+}
+
+function togglestyle2(el){
+    switch (el.value) {
+	case 'XOR' :
+    		el.value='OR';
+    		el.className='button_OR';
+    		break;
+	case 'OR' :
+    		el.value='AND';
+    		el.className='button_AND';
+    		break;
+	case 'AND' :
+    		el.value='XOR';
+    		el.className='button_XOR';
+    		break;
+    }
+}
+
+function count() {
+    var images_inline=0;
+    var images_number=0;
+    for (var i=0; i<document.getElementsByTagName('table').length; i++) {
+	if (document.getElementsByTagName('table').item(i).className == 'image') {
+	    if (document.getElementsByTagName('table').item(i).style.display == 'inline') {
+	    	images_inline=images_inline+1;
+	    }
+	    images_number=images_number+1;
+	}
+    }
+    document.getElementById('IMAGES_RATIO').value=pad(images_inline,3)+' / '+pad(images_number,3);
+}
+
+function show_all() {
+    for (var i=0; i<document.getElementsByTagName('table').length; i++) {
+	if (document.getElementsByTagName('table').item(i).className == 'image') {
+    		document.getElementsByTagName('table').item(i).style.display='inline';
+    	}
+    }
+    count();
+    document.getElementById('FILTER_READONLY').value='.*';
+}
+
+function hide_all() {
+    for (var i=0; i<document.getElementsByTagName('table').length; i++) {
+	if (document.getElementsByTagName('table').item(i).className == 'image') {
+        	document.getElementsByTagName('table').item(i).style.display='none';
+    	}
+    }
+}
+
+function show_table(name) {
+    for (var i=0; i<document.getElementsByTagName('table').length; i++) {
+	if (document.getElementsByTagName('table').item(i).className == 'image') {
+    		tablename=document.getElementsByTagName('table').item(i).getAttribute('name');
+    		//alert('tablename '+tablename);
+    		if (tablename.match(eval('/('+name+')/'))) {
+    			document.getElementsByTagName('table').item(i).style.display='inline';
+    		}
+    	}
+    }
+}
+
+function set_input_off() {
+    for (var i=0; i<document.getElementsByTagName('input').length; i++) {
+    	if (document.getElementsByTagName('input')[i].className == 'button_on') {
+    		value=document.getElementsByTagName('input')[i].getAttribute('value');
+    		if (value != 'ALL') {
+    			document.getElementsByTagName('input')[i].className='button_off';
+    		}
+    	}
+    }
+}
+
+function filter(el) {
+    document.getElementById('FILTER_ALL').className='button_off';
+    hide_all();
+    operator=document.getElementById('OPERATOR').value;
+    if (operator == 'XOR') {
+	set_input_off();
+	el.className='button_on';
+	exp=el.value;
+    } 
+    else {   // exp is the pattern to be build from all input buttons when OR or AND
+    	var exp='';
+    	for (var i=0; i<document.getElementsByTagName('input').length; i++) {
+    		if ((document.getElementsByTagName('input')[i].className == 'button_on') 
+    		    && (document.getElementsByTagName('input')[i].name != 'FILTER_READONLY')) {
+    			value=document.getElementsByTagName('input')[i].value;
+			//alert('DETECTED '+value);
+			if (exp == '')
+				exp=value;
+			else
+				if (operator == 'AND')
+					exp=exp+'.*'+value+'.*';
+				else					// operator == 'OR'
+					exp=exp+'|'+value;
+    		}
+    	}
+    }
+    //alert(operator + exp);
+    document.getElementById('FILTER_READONLY').value=exp;
+    if (exp == '') { 
+	hide_all();
+    } else {
+    	show_table(exp);
+    }
+    count();
+}
+
+function clear1() {
+    hide_all();
+    count();
+    set_input_off();
+    document.getElementById('FILTER_ALL').className='button_off';
+    document.getElementById('FILTER_READONLY').value='';
+}
+
+// -->
+</script>
+<!-- ########################################################################## -->
+
+<!-- ########################################################################## -->
+<script type="text/javascript" src="html/jquery-1.6.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="html/jquery.qtip.min.css" />
+<script type="text/javascript" src="html/jquery.qtip.min.js"></script>
+
+<link type="text/css" href="html/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="html/jquery-ui-1.8.16.custom.min.js"></script>
+
+
+<style type="text/css">
+.ui-widget {
+  font-size: 15px;
+  font-family: Arial,Helvetica; 
+  background-color: #ffffff;
+}
+.ui-tooltip {
+   max-width: 800px;
+   min-width: 50px;
+}
+</style>
+
+<!-- ########################################################################## -->
+
+<!-- ########################################################################## -->
+<script type="text/javascript">
+<!-- 
+
+function basename (path, suffix) {
+    // http://kevin.vanzonneveld.net
+    // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +   improved by: Ash Searle (http://hexmen.com/blog/)
+    // +   improved by: Lincoln Ramsay
+    // +   improved by: djmix
+    // *     example 1: basename('/www/site/home.htm', '.htm');
+    // *     returns 1: 'home'
+
+    var b = path.replace(/^.*[\/\\]/g, '');
+
+    if (typeof(suffix) == 'string' && b.substr(b.length-suffix.length) == suffix) {
+        b = b.substr(0, b.length-suffix.length);
+    }
+
+    return b;
+}
+function popimage(img) {
+        w=open('',img,'width=800,height=600,toolbar=no,scrollbars=no,resizable=no');
+        w.document.write("<html>\n");
+        w.document.write("<head>\n");
+        title=basename(img, '');
+        w.document.write("<title>"+title+"</title>\n");
+        w.document.write("<script type='text/javascript'>\n");
+        w.document.write("\tfunction checksize() {\n\t\tif (document.images[0].complete) {\n\t\t\twindow.resizeTo(document.images[0].width,document.images[0].height+60);\n\t\t\twindow.focus();\n\t\t\t}\n\t\telse {\n\t\t\tsettimeout('checksize()',250)\n\t\t\t}\n\t}\n\t");
+        w.document.write("<"+"/script>\n");
+        w.document.write("</head>\n\n");
+        w.document.write("<body onload='checksize()'>\n");
+        w.document.write("<img src='"+img+"' border='0'/>\n");
+        w.document.write("</body>\n");
+        w.document.write("</html>\n");
+        w.document.close();
+}
+function poplink1(link) {
+        w=window.open(link,this,'width=1400,height=800,scrollbars=yes');
+        w.document.close();
+}
+function poplink2(link) {
+        w=window.open(link,this,'width=1400,height=800,scrollbars=no');
+        w.document.close();
+}
+
+// -->
+</script>
+<!-- ########################################################################## -->
+
+<script type="text/javascript">
+<!-- 
+        $(function() {
+		$( "#tabs" ).tabs({
+			event: "click"
+		});
+        });
+// -->
+</script>
+
+<!-- ========================================================================== -->
+</head>
+
+<body>
+
+<!-- ========================================================================== -->
+<h2>Inter-monitoring: CM607R-LR-pdCtrl-TSnw-01 vs CM607-LR-pdCtrl-01 vs CM607R-LR-pdCtrl-SnwCnd05-01</h2>
+<h3>at 2017-03-09 23:00:49</h3>
+
+<!-- ===================================== -->
+<div id="tabs">
+   <ul>
+      <li><a href="#tabs-2">Monitoring Board</a></li>
+      <li><a href="#tabs-3">About</a></li>
+   </ul>
+
+<!-- ===================================== -->
+     <div id="tabs-2"> 
+	  
+<!-- ============== -->
+<br/>
+
+<input type="button" value="ALL" class="button_on" onclick="togglestyle1(this); show_all(); set_input_off();" id="FILTER_ALL" 
+                     title="Filter will match all"/>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<strong>Filter :</strong>
+
+<input type="text" style="width:300px;font-weight:bold;" readonly="readonly" id="FILTER_READONLY"
+                   title="Filter applied"/>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<strong>Images :</strong>
+<input type="text" style="width:100px;font-weight:bold;" readonly="readonly" id="IMAGES_RATIO"
+                   title="Number of displayed images / Number of images"/>
+
+<br/>
+<br/>
+
+<input type="button" value="ATM" class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="CHM" class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="ICE" class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="MBG" class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="OCE" class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="SBG" class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="SRF" class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="XOR" class="button_XOR" onclick="togglestyle2(this); clear1();" id="OPERATOR"
+                     title="Toggle between XOR, OR, AND logical operators" />
+<input type="button" value="CLR" class="button" onclick="clear1();"
+                     title="Clear all filters" />
+
+<br/>
+
+<input type="button" value="land"    class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="ocean"   class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="north"   class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="south"   class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="global"  class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="button" value="forcing" class="button_off" onclick="togglestyle1(this); filter(this);" />
+<input type="text"   value=""        class="button_off" onclick="togglestyle1(this); filter(this);"
+                                                       onkeyup="filter(this);"
+                                                    onkeypress="this.className='button_on';"
+                     style="width:100px;"  title="Enter a regular expression as filter" />
+		  
+<br/>
+<br/>
+
+<!-- ========================================== -->
+
+<!-- ============== -->
+<table class="image" name="images/ATM_absvisaer_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_absvisaer_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_absvisaer_forcing_ave.jpg" tip="images/ATM_absvisaer_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_absvisaer_forcing_ave.gif")'>
+ATM_absvisaer_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_bils_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_bils_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_bils_global_ave.jpg" tip="images/ATM_bils_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_bils_global_ave.gif")'>
+ATM_bils_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_evap_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_evap_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_evap_global_ave.jpg" tip="images/ATM_evap_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_evap_global_ave.gif")'>
+ATM_evap_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_evap_land_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_evap_land_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_evap_land_ave.jpg" tip="images/ATM_evap_land_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_evap_land_ave.gif")'>
+ATM_evap_land_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_flat_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_flat_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_flat_global_ave.jpg" tip="images/ATM_flat_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_flat_global_ave.gif")'>
+ATM_flat_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_nettop0_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_nettop0_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_nettop0_global_ave.jpg" tip="images/ATM_nettop0_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_nettop0_global_ave.gif")'>
+ATM_nettop0_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_nettop_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_nettop_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_nettop_global_ave.jpg" tip="images/ATM_nettop_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_nettop_global_ave.gif")'>
+ATM_nettop_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_od550aer_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_od550aer_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_od550aer_forcing_ave.jpg" tip="images/ATM_od550aer_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_od550aer_forcing_ave.gif")'>
+ATM_od550aer_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_od550lt1aer_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_od550lt1aer_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_od550lt1aer_forcing_ave.jpg" tip="images/ATM_od550lt1aer_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_od550lt1aer_forcing_ave.gif")'>
+ATM_od550lt1aer_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_precip_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_precip_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_precip_global_ave.jpg" tip="images/ATM_precip_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_precip_global_ave.gif")'>
+ATM_precip_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_precip_land_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_precip_land_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_precip_land_ave.jpg" tip="images/ATM_precip_land_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_precip_land_ave.gif")'>
+ATM_precip_land_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_prw_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_prw_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_prw_global_ave.jpg" tip="images/ATM_prw_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_prw_global_ave.gif")'>
+ATM_prw_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_solswad_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_solswad_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_solswad_forcing_ave.jpg" tip="images/ATM_solswad_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_solswad_forcing_ave.gif")'>
+ATM_solswad_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_solswai_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_solswai_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_solswai_forcing_ave.jpg" tip="images/ATM_solswai_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_solswai_forcing_ave.gif")'>
+ATM_solswai_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_t2m_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_t2m_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_t2m_global_ave.jpg" tip="images/ATM_t2m_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_t2m_global_ave.gif")'>
+ATM_t2m_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_t2m_land_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_t2m_land_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_t2m_land_ave.jpg" tip="images/ATM_t2m_land_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_t2m_land_ave.gif")'>
+ATM_t2m_land_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_topswad_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_topswad_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_topswad_forcing_ave.jpg" tip="images/ATM_topswad_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_topswad_forcing_ave.gif")'>
+ATM_topswad_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_topswai_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_topswai_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_topswai_forcing_ave.jpg" tip="images/ATM_topswai_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_topswai_forcing_ave.gif")'>
+ATM_topswai_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_tro3_strato_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_tro3_strato_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_tro3_strato_forcing_ave.jpg" tip="images/ATM_tro3_strato_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_tro3_strato_forcing_ave.gif")'>
+ATM_tro3_strato_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_tro3_tropo_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_tro3_tropo_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_tro3_tropo_forcing_ave.jpg" tip="images/ATM_tro3_tropo_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_tro3_tropo_forcing_ave.gif")'>
+ATM_tro3_tropo_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_tsol_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_tsol_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_tsol_global_ave.jpg" tip="images/ATM_tsol_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_tsol_global_ave.gif")'>
+ATM_tsol_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ATM_tsol_land_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ATM_tsol_land_ave.gif")'>
+<img class="tipimg" alt="" src="images/ATM_tsol_land_ave.jpg" tip="images/ATM_tsol_land_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ATM_tsol_land_ave.gif")'>
+ATM_tsol_land_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_icevol_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_icevol_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_icevol_north_ave.jpg" tip="images/ICE_icevol_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_icevol_north_ave.gif")'>
+ICE_icevol_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_icevol_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_icevol_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_icevol_south_ave.jpg" tip="images/ICE_icevol_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_icevol_south_ave.gif")'>
+ICE_icevol_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_iicethic_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_iicethic_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_iicethic_north_ave.jpg" tip="images/ICE_iicethic_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_iicethic_north_ave.gif")'>
+ICE_iicethic_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_iicethic_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_iicethic_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_iicethic_south_ave.jpg" tip="images/ICE_iicethic_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_iicethic_south_ave.gif")'>
+ICE_iicethic_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_isnowthi_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_isnowthi_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_isnowthi_north_ave.jpg" tip="images/ICE_isnowthi_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_isnowthi_north_ave.gif")'>
+ICE_isnowthi_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_isnowthi_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_isnowthi_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_isnowthi_south_ave.jpg" tip="images/ICE_isnowthi_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_isnowthi_south_ave.gif")'>
+ICE_isnowthi_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_siages_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_siages_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_siages_north_ave.jpg" tip="images/ICE_siages_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_siages_north_ave.gif")'>
+ICE_siages_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_siages_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_siages_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_siages_south_ave.jpg" tip="images/ICE_siages_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_siages_south_ave.gif")'>
+ICE_siages_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_siconc_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_siconc_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_siconc_north_ave.jpg" tip="images/ICE_siconc_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_siconc_north_ave.gif")'>
+ICE_siconc_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_siconc_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_siconc_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_siconc_south_ave.jpg" tip="images/ICE_siconc_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_siconc_south_ave.gif")'>
+ICE_siconc_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_sisali_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_sisali_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_sisali_north_ave.jpg" tip="images/ICE_sisali_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_sisali_north_ave.gif")'>
+ICE_sisali_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_sisali_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_sisali_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_sisali_south_ave.jpg" tip="images/ICE_sisali_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_sisali_south_ave.gif")'>
+ICE_sisali_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_sistem_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_sistem_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_sistem_north_ave.jpg" tip="images/ICE_sistem_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_sistem_north_ave.gif")'>
+ICE_sistem_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_sistem_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_sistem_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_sistem_south_ave.jpg" tip="images/ICE_sistem_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_sistem_south_ave.gif")'>
+ICE_sistem_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_sitemp_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_sitemp_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_sitemp_north_ave.jpg" tip="images/ICE_sitemp_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_sitemp_north_ave.gif")'>
+ICE_sitemp_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_sitemp_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_sitemp_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_sitemp_south_ave.jpg" tip="images/ICE_sitemp_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_sitemp_south_ave.gif")'>
+ICE_sitemp_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_snowvol_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_snowvol_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_snowvol_north_ave.jpg" tip="images/ICE_snowvol_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_snowvol_north_ave.gif")'>
+ICE_snowvol_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/ICE_snowvol_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/ICE_snowvol_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/ICE_snowvol_south_ave.jpg" tip="images/ICE_snowvol_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/ICE_snowvol_south_ave.gif")'>
+ICE_snowvol_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/MBG_alk_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/MBG_alk_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/MBG_alk_global_ave.jpg" tip="images/MBG_alk_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/MBG_alk_global_ave.gif")'>
+MBG_alk_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/MBG_cflx_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/MBG_cflx_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/MBG_cflx_global_ave.jpg" tip="images/MBG_cflx_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/MBG_cflx_global_ave.gif")'>
+MBG_cflx_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/MBG_dic_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/MBG_dic_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/MBG_dic_global_ave.jpg" tip="images/MBG_dic_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/MBG_dic_global_ave.gif")'>
+MBG_dic_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/MBG_epc_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/MBG_epc_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/MBG_epc_global_ave.jpg" tip="images/MBG_epc_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/MBG_epc_global_ave.gif")'>
+MBG_epc_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/MBG_no3_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/MBG_no3_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/MBG_no3_global_ave.jpg" tip="images/MBG_no3_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/MBG_no3_global_ave.gif")'>
+MBG_no3_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/MBG_o2_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/MBG_o2_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/MBG_o2_global_ave.jpg" tip="images/MBG_o2_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/MBG_o2_global_ave.gif")'>
+MBG_o2_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/MBG_po4_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/MBG_po4_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/MBG_po4_global_ave.jpg" tip="images/MBG_po4_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/MBG_po4_global_ave.gif")'>
+MBG_po4_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/MBG_si_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/MBG_si_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/MBG_si_global_ave.jpg" tip="images/MBG_si_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/MBG_si_global_ave.gif")'>
+MBG_si_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_aabw_ocean_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_aabw_ocean_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_aabw_ocean_ave.jpg" tip="images/OCE_aabw_ocean_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_aabw_ocean_ave.gif")'>
+OCE_aabw_ocean_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_deacon_ocean_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_deacon_ocean_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_deacon_ocean_ave.jpg" tip="images/OCE_deacon_ocean_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_deacon_ocean_ave.gif")'>
+OCE_deacon_ocean_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_friver_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_friver_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_friver_global_ave.jpg" tip="images/OCE_friver_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_friver_global_ave.gif")'>
+OCE_friver_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_hc300_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_hc300_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_hc300_global_ave.jpg" tip="images/OCE_hc300_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_hc300_global_ave.gif")'>
+OCE_hc300_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_nadw_ocean_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_nadw_ocean_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_nadw_ocean_ave.jpg" tip="images/OCE_nadw_ocean_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_nadw_ocean_ave.gif")'>
+OCE_nadw_ocean_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_npdw_ocean_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_npdw_ocean_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_npdw_ocean_ave.jpg" tip="images/OCE_npdw_ocean_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_npdw_ocean_ave.gif")'>
+OCE_npdw_ocean_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_so_0100m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_so_0100m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_so_0100m_ave.jpg" tip="images/OCE_so_0100m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_so_0100m_ave.gif")'>
+OCE_so_0100m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_so_0200m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_so_0200m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_so_0200m_ave.jpg" tip="images/OCE_so_0200m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_so_0200m_ave.gif")'>
+OCE_so_0200m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_so_0500m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_so_0500m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_so_0500m_ave.jpg" tip="images/OCE_so_0500m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_so_0500m_ave.gif")'>
+OCE_so_0500m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_so_1000m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_so_1000m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_so_1000m_ave.jpg" tip="images/OCE_so_1000m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_so_1000m_ave.gif")'>
+OCE_so_1000m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_so_2000m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_so_2000m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_so_2000m_ave.jpg" tip="images/OCE_so_2000m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_so_2000m_ave.gif")'>
+OCE_so_2000m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_so_3000m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_so_3000m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_so_3000m_ave.jpg" tip="images/OCE_so_3000m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_so_3000m_ave.gif")'>
+OCE_so_3000m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_so_4000m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_so_4000m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_so_4000m_ave.jpg" tip="images/OCE_so_4000m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_so_4000m_ave.gif")'>
+OCE_so_4000m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sohefldo_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sohefldo_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sohefldo_global_ave.jpg" tip="images/OCE_sohefldo_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sohefldo_global_ave.gif")'>
+OCE_sohefldo_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_somxl010_north_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_somxl010_north_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_somxl010_north_ave.jpg" tip="images/OCE_somxl010_north_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_somxl010_north_ave.gif")'>
+OCE_somxl010_north_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_somxl010_south_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_somxl010_south_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_somxl010_south_ave.jpg" tip="images/OCE_somxl010_south_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_somxl010_south_ave.gif")'>
+OCE_somxl010_south_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_10N_30N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_10N_30N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_10N_30N_ave.jpg" tip="images/OCE_sosaline_10N_30N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_10N_30N_ave.gif")'>
+OCE_sosaline_10N_30N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_10S_10N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_10S_10N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_10S_10N_ave.jpg" tip="images/OCE_sosaline_10S_10N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_10S_10N_ave.gif")'>
+OCE_sosaline_10S_10N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_30N_50N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_30N_50N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_30N_50N_ave.jpg" tip="images/OCE_sosaline_30N_50N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_30N_50N_ave.gif")'>
+OCE_sosaline_30N_50N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_30S_10S_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_30S_10S_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_30S_10S_ave.jpg" tip="images/OCE_sosaline_30S_10S_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_30S_10S_ave.gif")'>
+OCE_sosaline_30S_10S_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_50N_70N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_50N_70N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_50N_70N_ave.jpg" tip="images/OCE_sosaline_50N_70N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_50N_70N_ave.gif")'>
+OCE_sosaline_50N_70N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_50S_30S_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_50S_30S_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_50S_30S_ave.jpg" tip="images/OCE_sosaline_50S_30S_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_50S_30S_ave.gif")'>
+OCE_sosaline_50S_30S_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_70N_90N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_70N_90N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_70N_90N_ave.jpg" tip="images/OCE_sosaline_70N_90N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_70N_90N_ave.gif")'>
+OCE_sosaline_70N_90N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_70S_50S_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_70S_50S_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_70S_50S_ave.jpg" tip="images/OCE_sosaline_70S_50S_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_70S_50S_ave.gif")'>
+OCE_sosaline_70S_50S_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosaline_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosaline_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosaline_global_ave.jpg" tip="images/OCE_sosaline_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosaline_global_ave.gif")'>
+OCE_sosaline_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sossheig_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sossheig_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sossheig_global_ave.jpg" tip="images/OCE_sossheig_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sossheig_global_ave.gif")'>
+OCE_sossheig_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_10N_30N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_10N_30N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_10N_30N_ave.jpg" tip="images/OCE_sosstsst_10N_30N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_10N_30N_ave.gif")'>
+OCE_sosstsst_10N_30N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_10S_10N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_10S_10N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_10S_10N_ave.jpg" tip="images/OCE_sosstsst_10S_10N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_10S_10N_ave.gif")'>
+OCE_sosstsst_10S_10N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_30N_50N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_30N_50N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_30N_50N_ave.jpg" tip="images/OCE_sosstsst_30N_50N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_30N_50N_ave.gif")'>
+OCE_sosstsst_30N_50N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_30S_10S_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_30S_10S_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_30S_10S_ave.jpg" tip="images/OCE_sosstsst_30S_10S_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_30S_10S_ave.gif")'>
+OCE_sosstsst_30S_10S_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_50N_70N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_50N_70N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_50N_70N_ave.jpg" tip="images/OCE_sosstsst_50N_70N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_50N_70N_ave.gif")'>
+OCE_sosstsst_50N_70N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_50S_30S_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_50S_30S_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_50S_30S_ave.jpg" tip="images/OCE_sosstsst_50S_30S_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_50S_30S_ave.gif")'>
+OCE_sosstsst_50S_30S_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_70N_90N_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_70N_90N_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_70N_90N_ave.jpg" tip="images/OCE_sosstsst_70N_90N_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_70N_90N_ave.gif")'>
+OCE_sosstsst_70N_90N_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_70S_50S_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_70S_50S_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_70S_50S_ave.jpg" tip="images/OCE_sosstsst_70S_50S_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_70S_50S_ave.gif")'>
+OCE_sosstsst_70S_50S_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_sosstsst_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_sosstsst_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_sosstsst_global_ave.jpg" tip="images/OCE_sosstsst_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_sosstsst_global_ave.gif")'>
+OCE_sosstsst_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_thetao_0100m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_thetao_0100m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_thetao_0100m_ave.jpg" tip="images/OCE_thetao_0100m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_thetao_0100m_ave.gif")'>
+OCE_thetao_0100m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_thetao_0200m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_thetao_0200m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_thetao_0200m_ave.jpg" tip="images/OCE_thetao_0200m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_thetao_0200m_ave.gif")'>
+OCE_thetao_0200m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_thetao_0500m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_thetao_0500m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_thetao_0500m_ave.jpg" tip="images/OCE_thetao_0500m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_thetao_0500m_ave.gif")'>
+OCE_thetao_0500m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_thetao_1000m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_thetao_1000m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_thetao_1000m_ave.jpg" tip="images/OCE_thetao_1000m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_thetao_1000m_ave.gif")'>
+OCE_thetao_1000m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_thetao_2000m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_thetao_2000m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_thetao_2000m_ave.jpg" tip="images/OCE_thetao_2000m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_thetao_2000m_ave.gif")'>
+OCE_thetao_2000m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_thetao_3000m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_thetao_3000m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_thetao_3000m_ave.jpg" tip="images/OCE_thetao_3000m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_thetao_3000m_ave.gif")'>
+OCE_thetao_3000m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_thetao_4000m_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_thetao_4000m_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_thetao_4000m_ave.jpg" tip="images/OCE_thetao_4000m_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_thetao_4000m_ave.gif")'>
+OCE_thetao_4000m_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/OCE_wfo_global_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/OCE_wfo_global_ave.gif")'>
+<img class="tipimg" alt="" src="images/OCE_wfo_global_ave.jpg" tip="images/OCE_wfo_global_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/OCE_wfo_global_ave.gif")'>
+OCE_wfo_global_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SBG_cSoil_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SBG_cSoil_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SBG_cSoil_lands_ave.jpg" tip="images/SBG_cSoil_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SBG_cSoil_lands_ave.gif")'>
+SBG_cSoil_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SBG_cVeg_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SBG_cVeg_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SBG_cVeg_lands_ave.jpg" tip="images/SBG_cVeg_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SBG_cVeg_lands_ave.gif")'>
+SBG_cVeg_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SBG_fFire_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SBG_fFire_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SBG_fFire_lands_ave.jpg" tip="images/SBG_fFire_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SBG_fFire_lands_ave.gif")'>
+SBG_fFire_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SBG_fHarvest_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SBG_fHarvest_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SBG_fHarvest_lands_ave.jpg" tip="images/SBG_fHarvest_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SBG_fHarvest_lands_ave.gif")'>
+SBG_fHarvest_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SBG_fLuc_fHarvest_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SBG_fLuc_fHarvest_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SBG_fLuc_fHarvest_lands_ave.jpg" tip="images/SBG_fLuc_fHarvest_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SBG_fLuc_fHarvest_lands_ave.gif")'>
+SBG_fLuc_fHarvest_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SBG_nbp_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SBG_nbp_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SBG_nbp_lands_ave.jpg" tip="images/SBG_nbp_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SBG_nbp_lands_ave.gif")'>
+SBG_nbp_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SBG_npp_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SBG_npp_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SBG_npp_lands_ave.jpg" tip="images/SBG_npp_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SBG_npp_lands_ave.gif")'>
+SBG_npp_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SBG_rh_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SBG_rh_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SBG_rh_lands_ave.jpg" tip="images/SBG_rh_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SBG_rh_lands_ave.gif")'>
+SBG_rh_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_albedo_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_albedo_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_albedo_lands_ave.jpg" tip="images/SRF_albedo_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_albedo_lands_ave.gif")'>
+SRF_albedo_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_delta_water_stock_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_delta_water_stock_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_delta_water_stock_ave.jpg" tip="images/SRF_delta_water_stock_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_delta_water_stock_ave.gif")'>
+SRF_delta_water_stock_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_drainage_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_drainage_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_drainage_lands_ave.jpg" tip="images/SRF_drainage_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_drainage_lands_ave.gif")'>
+SRF_drainage_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_evap_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_evap_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_evap_lands_ave.jpg" tip="images/SRF_evap_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_evap_lands_ave.gif")'>
+SRF_evap_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_evapnu_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_evapnu_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_evapnu_lands_ave.jpg" tip="images/SRF_evapnu_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_evapnu_lands_ave.gif")'>
+SRF_evapnu_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_fluxsens_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_fluxsens_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_fluxsens_lands_ave.jpg" tip="images/SRF_fluxsens_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_fluxsens_lands_ave.gif")'>
+SRF_fluxsens_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_humidity_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_humidity_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_humidity_lands_ave.jpg" tip="images/SRF_humidity_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_humidity_lands_ave.gif")'>
+SRF_humidity_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_lai_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_lai_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_lai_lands_ave.jpg" tip="images/SRF_lai_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_lai_lands_ave.gif")'>
+SRF_lai_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_maxveget_forcing_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_maxveget_forcing_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_maxveget_forcing_ave.jpg" tip="images/SRF_maxveget_forcing_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_maxveget_forcing_ave.gif")'>
+SRF_maxveget_forcing_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_nee_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_nee_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_nee_lands_ave.jpg" tip="images/SRF_nee_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_nee_lands_ave.gif")'>
+SRF_nee_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_precip_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_precip_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_precip_lands_ave.jpg" tip="images/SRF_precip_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_precip_lands_ave.gif")'>
+SRF_precip_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_runoff_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_runoff_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_runoff_lands_ave.jpg" tip="images/SRF_runoff_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_runoff_lands_ave.gif")'>
+SRF_runoff_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_snowf_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_snowf_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_snowf_lands_ave.jpg" tip="images/SRF_snowf_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_snowf_lands_ave.gif")'>
+SRF_snowf_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_snownobio_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_snownobio_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_snownobio_lands_ave.jpg" tip="images/SRF_snownobio_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_snownobio_lands_ave.gif")'>
+SRF_snownobio_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_snow_swe_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_snow_swe_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_snow_swe_lands_ave.jpg" tip="images/SRF_snow_swe_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_snow_swe_lands_ave.gif")'>
+SRF_snow_swe_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_subli_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_subli_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_subli_lands_ave.jpg" tip="images/SRF_subli_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_subli_lands_ave.gif")'>
+SRF_subli_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_surface_humidity_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_surface_humidity_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_surface_humidity_lands_ave.jpg" tip="images/SRF_surface_humidity_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_surface_humidity_lands_ave.gif")'>
+SRF_surface_humidity_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_temp_sol_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_temp_sol_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_temp_sol_lands_ave.jpg" tip="images/SRF_temp_sol_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_temp_sol_lands_ave.gif")'>
+SRF_temp_sol_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_twbr_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_twbr_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_twbr_lands_ave.jpg" tip="images/SRF_twbr_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_twbr_lands_ave.gif")'>
+SRF_twbr_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_vegeta_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_vegeta_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_vegeta_lands_ave.jpg" tip="images/SRF_vegeta_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_vegeta_lands_ave.gif")'>
+SRF_vegeta_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_vegetg_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_vegetg_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_vegetg_lands_ave.jpg" tip="images/SRF_vegetg_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_vegetg_lands_ave.gif")'>
+SRF_vegetg_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_vegetn_lands_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_vegetn_lands_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_vegetn_lands_ave.jpg" tip="images/SRF_vegetn_lands_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_vegetn_lands_ave.gif")'>
+SRF_vegetn_lands_ave</a>
+</td></tr>
+</table>
+<!-- ============== -->
+<table class="image" name="images/SRF_water_budget_closure_ave.gif">
+<tr><td>
+<a href='javascript:popimage("images/SRF_water_budget_closure_ave.gif")'>
+<img class="tipimg" alt="" src="images/SRF_water_budget_closure_ave.jpg" tip="images/SRF_water_budget_closure_ave.gif" border="0" /></a>
+</td></tr>
+<tr><td align="left">
+<a href='javascript:popimage("images/SRF_water_budget_closure_ave.gif")'>
+SRF_water_budget_closure_ave</a>
+</td></tr>
+</table>
+
+
+<!-- ========================================== -->
+
+  </div>
+
+<!-- ===================================== -->
+     <div id="tabs-3">
+	  <p>This monitoring has been produced by brocksce<br/>
+	  from ciclad-ng.private.ipsl.fr at 2017-03-09 23:00:49</p>
+	  More informations: <a target="_blank" href="https://github.com/PBrockmann/atlas">https://github.com/PBrockmann/atlas</a></p>
+          Notes:
+          <ul>
+             <li>When you click on image, a pop up window should appear.<br/>
+                 If not, in your browser preferences, enable Javascript and allow script<br/>
+                 to resize existing windows.</li>
+             <li>To stop an animated gif image, just hit the ESC key on your keyboard.<br/>
+                 In order to replay the animation, you'll have to reload the page by pressing F5 or Ctrl+R.</li>
+          </ul>
+
+	  <p>
+          <a href="http://validator.w3.org/check?uri=referer">
+          <img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
+	  </p>
+
+     </div>
+
+<!-- ===================================== -->
+</div>
+
+<!-- ========================================================================== -->
+
+<script type="text/javascript">
+<!-- 
+// Create the tooltips only when document ready
+$(document).ready(function() {
+    $('.tipimg').qtip({
+        style: {
+                classes: 'ui-tooltip-dark ui-tooltip-rounded'
+        },
+        content: {
+                text:  function(api) { return '<img alt="" src="' + $(this).attr('tip') + '" border="0" />' ; },
+                title: function(api) { return $(this).attr('tip'); }
+        },
+        position: {
+                my: 'top left',
+                at: 'center',
+                viewport: $(window),
+                adjust: {
+                        method: 'flip shift'
+                }
+        },
+        show: {
+                event: 'mouseover',
+                solo: true,
+        },
+        hide: {
+                fixed: true
+        }
+    })
+});
+
+// -->
+</script>
+
+</body>
+
+</html>
