@@ -3,7 +3,7 @@
 #====================================================
 # Author: Patrick Brockmann (LSCE)
 #
-# Usage: ./prod_bokeh.py simuList.txt filesList.txt
+# Usage: ./prod_bokeh.py simuList.txt filesList.txt 12
 #====================================================
 
 import sys, os
@@ -27,6 +27,13 @@ def sbx(array, windowsize):
     			b[i]=np.average(ave)
     
     return b
+
+#===========================================================
+def fnr(array, windowsize):
+    """
+    Perform fill nearest 
+    """
+
 
 #===========================================================
 with open(sys.argv[1]) as f:
@@ -78,6 +85,8 @@ from bokeh.models import Legend, ResizeTool
 
 output_file("prod_bokeh.html")
 
+smoothWindow = int(sys.argv[3])
+
 ncols = 2
 figArr = []
 for i,file in enumerate(filesList):
@@ -94,7 +103,7 @@ for i,file in enumerate(filesList):
 		
 		dates, values = readFile(simu + '/MONITORING/files/' + file)
 		simuTag = os.path.basename(simu)
-		p = fig.line(dates, sbx(values,12), line_width=1, line_alpha=0.75, line_color=colors[j])
+		p = fig.line(dates, sbx(values,smoothWindow), line_width=1, line_alpha=0.75, line_color=colors[j])
 		items.append((simuTag, [p]))
 
 	if i == 0:
