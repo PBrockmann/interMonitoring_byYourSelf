@@ -65,6 +65,11 @@ def readFile(file):
 	return dates, values
 
 #===========================================================
+colors = [ "#3B63E6", "#FF4500", "#FFE000", "#34D314", "#FF1392", "#FFA400", 
+	   "#775BB4", "#F5E6BD", "#789BF1", "#AFDFE6", "#0000C7", "#1FB1AA", 
+	   "#B12121", "#DEB886", "#FFB6C1" ]
+
+#===========================================================
 from bokeh.io import output_file, show
 from bokeh.layouts import gridplot
 from bokeh.palettes import Viridis3
@@ -89,7 +94,7 @@ for i,file in enumerate(filesList):
 		
 		dates, values = readFile(simu + '/MONITORING/files/' + file)
 		simuTag = os.path.basename(simu)
-		p = fig.line(dates, sbx(values,12), line_width=1, line_alpha=0.75, line_color=Viridis3[j])
+		p = fig.line(dates, sbx(values,12), line_width=1, line_alpha=0.75, line_color=colors[j])
 		items.append((simuTag, [p]))
 
 	if i == 0:
