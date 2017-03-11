@@ -1,0 +1,3 @@
+ATM_bils_global_ave.nc
+ATM_t2m_global_ave.nc
+OCE_sosstsst_global_ave.nc

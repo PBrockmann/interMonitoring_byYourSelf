@@ -19,7 +19,6 @@ simuList = [x.strip() for x in simuList]
 
 print simuList
 
-
 #=============================================================
 setFiles = []
 for i,simu in enumerate(simuList):
