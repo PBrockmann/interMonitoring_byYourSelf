@@ -14,10 +14,23 @@ from jinja2 import Environment, FileSystemLoader
 
 #=============================================================
 with open(sys.argv[1]) as f:
-    simuList = f.readlines()
-simuList = [x.strip() for x in simuList]
+    simuList1 = f.readlines()
+simuList1 = [x.strip() for x in simuList1]
+
+dateOffset = []
+simuList = []
+for s in simuList1:
+	arr = s.split('\t')
+	simuList.append(arr[0])
+	try:
+		dateOffset.append(arr[1])
+	except: 
+		dateOffset.append('""')
+
 
 print simuList
+print simuList1
+print dateOffset
 
 #=============================================================
 setFiles = []
@@ -69,22 +82,27 @@ frameColors = {
 }
 
 #=============================================================
-quiet = "> /dev/null 2>&1"
+quiet = " > /dev/null 2>&1"
+
+smooth = "12"
 
 #for file in filesInter:
 for file in filesInter[20:24]:		# Only 4 first files for testing
 
 	color = frameColors[file.split('_')[0]]
 
-	cmd = "pyferret -noverify -quiet -batch " + outputDir + "/images/" + file.replace(".nc",".png") + " -script " + scriptFile + " " + file
+	cmd = "pyferret -noverify -quiet -batch " + outputDir + "/images/" + file.replace(".nc",".png") + " -script " + scriptFile + " " + file + \
+			 " " + smooth + " " + ' '.join(dateOffset)
 	print cmd
-	os.system(cmd + quiet)
+	#os.system(cmd + quiet)
+	os.system(cmd)
 	
 	cmd = "convert " + outputDir + "/images/" + file.replace(".nc",".png") + " " + outputDir + "/images/" + file.replace(".nc",".gif")
 	print cmd
 	os.system(cmd + quiet)
 
-	cmd = "convert -geometry 50%x50% -bordercolor '" + color + "' -border 15x15 " + outputDir + "/images/" + file.replace(".nc",".png") + " " + outputDir + "/images/" + file.replace(".nc",".jpg")
+	cmd = "convert -geometry 50%x50% -bordercolor '" + color + "' -border 15x15 " + outputDir + "/images/" + file.replace(".nc",".png") + " " + \
+			outputDir + "/images/" + file.replace(".nc",".jpg")
 	print cmd
 	os.system(cmd + quiet)
 
