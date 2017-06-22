@@ -72,7 +72,7 @@ frameColors = {
 quiet = "> /dev/null 2>&1"
 
 #for file in filesInter:
-for file in filesInter[0:4]:		# Only 4 first files for testing
+for file in filesInter[20:24]:		# Only 4 first files for testing
 
 	color = frameColors[file.split('_')[0]]
 
