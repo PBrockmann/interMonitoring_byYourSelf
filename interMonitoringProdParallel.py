@@ -108,8 +108,8 @@ def processInput(file):
 	print cmd
 	os.system(cmd + quiet)
 
-#Parallel(n_jobs=num_cores)(delayed(processInput)(file) for file in filesInter)
-Parallel(n_jobs=num_cores)(delayed(processInput)(file) for file in filesInter[20:24])
+Parallel(n_jobs=num_cores)(delayed(processInput)(file) for file in filesInter)
+#Parallel(n_jobs=num_cores)(delayed(processInput)(file) for file in filesInter[20:24])
 
 #=============================================================
 simuNames = [ os.path.basename(simu) for simu in simuList ]
