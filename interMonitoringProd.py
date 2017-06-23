@@ -6,26 +6,32 @@
 # Usage: ./prod.py simuList.txt
 #====================================================
 
+import sys, os
 import urllib
 from bs4 import BeautifulSoup
-import sys
-import sys, os
 from jinja2 import Environment, FileSystemLoader
 
-from joblib import Parallel, delayed
-import multiprocessing
+#=============================================================
+smooth = sys.argv[2] 
 
 #=============================================================
-num_cores = multiprocessing.cpu_count()
-print num_cores
-
-#=============================================================
-with open(sys.argv[1]) as f:
-    simuList = f.readlines()
-simuList = [x.strip() for x in simuList]
+dateOffset = []
+simuList = []
+for line in open(sys.argv[1]):
+    li=line.strip()
+    if len(li) != 0 and not li.startswith("#"):
+        arr = line.rstrip().split('\t')
+	arr = [x for x in arr if x != '']
+	simuList.append(arr[0])
+	if len(arr) > 1 :
+		dateOffset.append(arr[1])
+	else:
+		dateOffset.append('""')
 
 print simuList
+print dateOffset
 
+sys.exit()
 
 #=============================================================
 setFiles = []
@@ -77,12 +83,15 @@ frameColors = {
 }
 
 #=============================================================
-quiet = "> /dev/null 2>&1"
+quiet = " > /dev/null 2>&1"
 
-def processInput(file):
+#for file in filesInter:
+for file in filesInter[20:24]:		# Only 4 first files for testing
+
 	color = frameColors[file.split('_')[0]]
 
-	cmd = "pyferret -batch " + outputDir + "/images/" + file.replace(".nc",".png") + " -script " + scriptFile + " " + file
+	cmd = "pyferret -noverify -quiet -batch " + outputDir + "/images/" + file.replace(".nc",".png") + " -script " + scriptFile + " " + file + \
+			 " " + smooth + " " + ' '.join(dateOffset)
 	print cmd
 	os.system(cmd + quiet)
 	
@@ -90,11 +99,10 @@ def processInput(file):
 	print cmd
 	os.system(cmd + quiet)
 
-	cmd = "convert -geometry 50%x50% -bordercolor '" + color + "' -border 15x15 " + outputDir + "/images/" + file.replace(".nc",".png") + " " + outputDir + "/images/" + file.replace(".nc",".jpg")
+	cmd = "convert -geometry 50%x50% -bordercolor '" + color + "' -border 15x15 " + outputDir + "/images/" + file.replace(".nc",".png") + " " + \
+			outputDir + "/images/" + file.replace(".nc",".jpg")
 	print cmd
 	os.system(cmd + quiet)
-
-Parallel(n_jobs=num_cores)(delayed(processInput)(file) for file in filesInter)
 
 #=============================================================
 simuNames = [ os.path.basename(simu) for simu in simuList ]

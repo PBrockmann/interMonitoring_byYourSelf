@@ -1,0 +1,10 @@
+
+# Premier ensemble de simu
+
+https://vesg.ipsl.upmc.fr/thredds/catalog/work_thredds/p86caub/IPSLCM6/DEVT/pdControl/CM609-LR-pdCtrl-01
+https://vesg.ipsl.upmc.fr/thredds/catalog/work_thredds/p86caub/IPSLCM6/DEVT/pdControl/CM6010.2-LR-pdCtrl-01
+https://vesg.ipsl.upmc.fr/thredds/catalog/work_thredds/p86mart/IPSLCM6/DEVT/pdControl/CM609.v3-LR-pdCtrl-02 
+https://vesg.ipsl.upmc.fr/thredds/catalog/work_thredds/p86ggas/IPSLCM6/DEVT/pdControl/CM6010.2-LR-pdCtrl-03		550
+https://vesg.ipsl.upmc.fr/thredds/catalog/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM6010.2-LR-pdCtrl-phys09		-50
+https://vesg.ipsl.upmc.fr/thredds/catalog/work_thredds/p86mign/IPSLCM6/DEVT/pdControl/CM6010.2-LR-pdCtrl-phys09rstb	500
+https://vesg.ipsl.upmc.fr/thredds/catalog/work_thredds/p86maf/IPSLCM6/DEVT/pdControl/CM6010.2-LR-pdCtrl-609-v2
