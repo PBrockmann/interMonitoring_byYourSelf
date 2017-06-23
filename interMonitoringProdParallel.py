@@ -6,10 +6,9 @@
 # Usage: ./prod.py simuList.txt
 #====================================================
 
+import sys, os, shutil
 import urllib
 from bs4 import BeautifulSoup
-import sys
-import sys, os
 from jinja2 import Environment, FileSystemLoader
 
 from joblib import Parallel, delayed
@@ -59,8 +58,10 @@ if len(filesInter) == 0:
 filesInter = sorted(filesInter)
 
 #=============================================================
-outputDir = "interMonitoring_" + str(os.getpid())
+#outputDir = "interMonitoring_" + str(os.getpid())
+outputDir = sys.argv[3]
 print outputDir
+shutil.rmtree(outputDir)
 os.mkdir(outputDir)
 os.mkdir(outputDir + "/images")
 

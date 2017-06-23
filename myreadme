@@ -1,4 +1,10 @@
- 
+
+#====================================================================== 
+./interMonitoringProdParallel.py simuList.txt 12
+
+cd /home/brocksce/interMonitoring_byYourSelf ; ./interMonitoringProd.py simuList.txt 12 set1 ; rsync --delete -va set1 /prodigfs/ipslfs/http/dods/web/html/brocksce/interMonitoring
+
+#====================================================================== 
 pyferret -nodisplay -script monitoring_ex0.jnl monitoring_ex0
 pyferret -nodisplay -script monitoring_ex1.jnl monitoring_ex1
 
