@@ -3,7 +3,7 @@
 #====================================================
 # Author: Patrick Brockmann (LSCE)
 #
-# Usage: ./prod.py simuList.txt
+# Usage: ./interMonitoringProdParallel.py simuList.txt
 #====================================================
 
 import sys, os, shutil
@@ -31,28 +31,31 @@ for line in open(sys.argv[1]):
 	else:
 		dateOffset.append('""')
 
+print "################################################################################"
+os.system("cat " + sys.argv[1])
+print "################################################################################"
 print simuList
 print dateOffset
+print "################################################################################"
 
 #=============================================================
 #outputDir = "interMonitoring_" + str(os.getpid())
 outputDir = sys.argv[3]
-print outputDir
 shutil.rmtree(outputDir, ignore_errors=True)
 os.mkdir(outputDir)
 os.mkdir(outputDir + "/images")
 
 shutil.copy(sys.argv[1], outputDir + "/simuList.txt")
 
+print "Output directory: ", outputDir
+print "################################################################################"
+
 #=============================================================
 num_cores = multiprocessing.cpu_count()
-print num_cores
+print "Number of processors: ", num_cores
+print "################################################################################"
 
 #=============================================================
-for i,simu in enumerate(simuList):
-	print simu
-print
-
 simuListOk = []
 setFiles = []
 for i,simu in enumerate(simuList):
@@ -65,27 +68,29 @@ for i,simu in enumerate(simuList):
         	for tag in catalogSoup.findAll('dataset') :
         	        if tag['name'].endswith(".nc"):
         	                s.add(tag['name'])
-		print "--> ", len(s) 
+		print "--> Nb of monitoring files found: ", len(s) 
 		if len(s) == 0:
-			print "-----> Zero length, will be skipped: ", simu
+			print "----> Zero length, will be skipped"
 		else:
 			simuListOk.append(simu)
         		setFiles.append(s)
 	except:
-		print "-----> Read problem, will be skipped: ", simu
+		print "----> Read problem, will be skipped"
+print "################################################################################"
 
 filesInter = set.intersection(*setFiles)
 
-print
 for i,simu in enumerate(simuListOk):
 	print simu
-
-if len(filesInter) == 0:
-	sys.exit()
+print "################################################################################"
 
 filesInter = sorted(filesInter)
 
 print 'Number of common files: ', len(filesInter)
+print "################################################################################"
+
+if len(filesInter) == 0:
+	sys.exit()
 
 #sys.exit()
 
@@ -138,9 +143,11 @@ Parallel(n_jobs=num_cores)(delayed(processInput)(file) for file in filesInter)
 
 #=============================================================
 simuNames = [ os.path.basename(simu) for simu in simuListOk ]
-title = ' vs '.join(simuNames)
-cmd = "monitoring01_createindex -t 'Inter-monitoring: " + title + "' " + outputDir;
+
+title = 'Inter-monitoring: <ul style="font-size: 16px;">' + ''.join(['<li>' + s for s in simuNames]) + '</ul>'
+cmd = "monitoring01_createindex -t '" + title + "' " + outputDir;
 print cmd
 os.system(cmd)
 
-
+#=============================================================
+print "################################################################################"
