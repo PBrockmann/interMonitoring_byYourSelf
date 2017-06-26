@@ -7,7 +7,7 @@ set view full ; go margins_set 15 30 10 08
 
 !============================================================
 !Please change the colors or/and legends if needed
-let colors={"3B63E6", "FF4500", "FFE000", "34D314", "FF1392", "FFA400", "775BB4", "F5E6BD", "789BF1", "AFDFE6", "0000C7", "1FB1AA", "B12121", "DEB886", "FFB6C1", "CCCCCC"}
+let colors={"3B63E6", "FF4500", "FFE000", "34D314", "FF1392", "FFA400", "775BB4", "9ACD32", "789BF1", "AFDFE6", "0000C7", "1FB1AA", "B12121", "DEB886", "FFB6C1", "CCCCCC"}
 ! Keep black in #1, gray will be at #17
 repeat/name=dv/range=1:16 ( define symbol ds=`dv` ; go set_color_from_hexa `dv+1` `colors[i=($ds)]` )
 
@@ -57,13 +57,14 @@ plot/nolab/noaxis i[i=1:5]*0-1E34 ! plot nothing, needed to define symbols used 
 
 !============================
 ! let title=spawn("echo `var[d=($ds)], return=dsetpath` | rev | cut -d/ -f 4-6 | rev") ;\
+!  go text_legend_put `xpos1` `xpos1+10` `ypos` "@AS `title`" `dv+1` 0.35 ;\
 
 let xpos1=10 ; let yposstart=20 ; let ypos=`yposstart`
 repeat/name=dv/range=1:`($n_open_dsets)` (\
   define symbol ds=`dv` ;\
   if `ypos lt 4` then ; let ypos=`yposstart` ; let xpos1=55 ; endif ;\
   let title=spawn("echo `var[d=($ds)], return=dsetpath` | rev | cut -d/ -f 4 | rev") ;\
-  go text_legend_put `xpos1` `xpos1+10` `ypos` "@AS `title`" `dv+1` 0.35 ;\
+  go text_legend_put2 `xpos1` `xpos1+10` `ypos` "@AS `title`" /line/thick=3/color=`dv+1` 0.3 ;\
   let ypos=`ypos-3` \
 )
 

@@ -31,43 +31,65 @@ for line in open(sys.argv[1]):
 print simuList
 print dateOffset
 
-sys.exit()
+#=============================================================
+#outputDir = "interMonitoring_" + str(os.getpid())
+outputDir = sys.argv[3]
+print outputDir
+shutil.rmtree(outputDir, ignore_errors=True)
+os.mkdir(outputDir)
+os.mkdir(outputDir + "/images")
+
+shutil.copy(sys.argv[1], outputDir + "/simuList.txt")
 
 #=============================================================
+for i,simu in enumerate(simuList):
+	print simu
+print
+
+simuListOk = []
 setFiles = []
 for i,simu in enumerate(simuList):
-        file = urllib.urlopen(simu + '/MONITORING/files/catalog.xml')
-        handler = file.read()
-        catalogSoup = BeautifulSoup(handler, "lxml")
-        s = set()
-        for tag in catalogSoup.findAll('dataset') :
-                if tag['name'].endswith(".nc"):
-                        s.add(tag['name'])
-        setFiles.append(s)
+	print i+1, simu
+	try:
+        	file = urllib.urlopen(simu + '/MONITORING/files/catalog.xml')
+        	handler = file.read()
+        	catalogSoup = BeautifulSoup(handler, "lxml")
+        	s = set()
+        	for tag in catalogSoup.findAll('dataset') :
+        	        if tag['name'].endswith(".nc"):
+        	                s.add(tag['name'])
+		print "--> ", len(s) 
+		if len(s) == 0:
+			print "-----> Zero length, will be skipped: ", simu
+		else:
+			simuListOk.append(simu)
+        		setFiles.append(s)
+	except:
+		print "-----> Read problem, will be skipped: ", simu
 
 filesInter = set.intersection(*setFiles)
+
+print
+for i,simu in enumerate(simuListOk):
+	print simu
 
 if len(filesInter) == 0:
 	sys.exit()
 
 filesInter = sorted(filesInter)
 
-#=============================================================
-#outputDir = "interMonitoring_" + str(os.getpid())
-outputDir = sys.argv[3]
-print outputDir
-shutil.rmtree(outputDir)
-os.mkdir(outputDir)
-os.mkdir(outputDir + "/images")
+print 'Number of common files: ', len(filesInter)
+
+#sys.exit()
 
 #=============================================================
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 j2_env = Environment(loader=FileSystemLoader(THIS_DIR), trim_blocks=True)
 
-simuList = [ simu.replace('/thredds/catalog/', '/thredds/dodsC/') for simu in simuList ]
+simuListOk = [ simu.replace('/thredds/catalog/', '/thredds/dodsC/') for simu in simuListOk ]
 
-script = j2_env.get_template('interMonitoring.jnl.template').render(simuList=simuList)
+script = j2_env.get_template('interMonitoring.jnl.template').render(simuList=simuListOk)
 
 scriptFile = outputDir + "/interMonitoring.jnl"
 with open(scriptFile, "wb") as fh:
@@ -92,7 +114,7 @@ for file in filesInter[20:24]:		# Only 4 first files for testing
 
 	color = frameColors[file.split('_')[0]]
 
-	cmd = "pyferret -noverify -quiet -batch " + outputDir + "/images/" + file.replace(".nc",".png") + " -script " + scriptFile + " " + file + \
+	cmd = "pyferret -quiet -noverify -batch " + outputDir + "/images/" + file.replace(".nc",".png") + " -script " + scriptFile + " " + file + \
 			 " " + smooth + " " + ' '.join(dateOffset)
 	print cmd
 	os.system(cmd + quiet)
@@ -107,7 +129,7 @@ for file in filesInter[20:24]:		# Only 4 first files for testing
 	os.system(cmd + quiet)
 
 #=============================================================
-simuNames = [ os.path.basename(simu) for simu in simuList ]
+simuNames = [ os.path.basename(simu) for simu in simuListOk ]
 title = ' vs '.join(simuNames)
 cmd = "monitoring01_createindex -t 'Inter-monitoring: " + title + "' " + outputDir;
 print cmd
